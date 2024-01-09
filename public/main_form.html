@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="bootstrap-5.3.2-dist/css/bootstrap.css" rel="stylesheet">
+    <title>Главная</title>
+</head>
+    <body>
+
+        <h1>Форма ввода</h1>
+        <form action="postdata" method="post">
+
+            <div>
+                <h3>Город</h3>
+                <label for="city">Укажите город</label>
+                <input id="city" name="city" placeholder="Введите город"/>
+            </div>
+
+
+            <div>
+                <h3>Назначение помещения</h3>
+                <label for="seat_assigment">Укажите назначение помещения</label>
+                <select id="seat_assigment" name = "seat_assigment">
+                    <option>Жилые</option>
+                    <option>Производственные</option>
+                    <option>Торговые</option>
+                    <option>Складские</option>
+                    <option>Объекты общепита</option>
+                    <option>Коммунально-бытовые</option>
+                    <option>Медицинские</option>
+                    <option>Офисные</option>
+                    <option>Спортивные</option>
+                    <option>Образовательные</option>
+                    <option>Банк</option>
+                </select>
+            </div>
+
+            <div>
+                <h3>Размеры помещения</h3>
+                <label>Укажите площадь помещения:</label>
+                <input name="square" type="number" step="any" placeholder="Площадь помещения"/>
+                <br/>
+                <label>Укажите высоту потолка:</label>
+                <input name="height" type="number" step="any" placeholder="Высота потолка"/>
+            </div>
+
+
+            <div>
+                <h3>Характеристики ограждающих конструкций</h3>
+                <label>Введите состав стен</label>
+                <select id="wall_composition" name = "wall_composition">
+                    <option>Железобетон</option>
+                    <option>Газобетонный блок</option>
+                    <option>Кирпич силикатный</option>
+                    <option>Кирпич керамический</option>
+                    <option>Пенополистирол</option>
+                    <option>Минеральная вата</option>
+                    <option>Воздушная прослойка</option>
+                    <option>Штукатурка</option>
+                </select>
+                <input type="number" step="any" name="wall_thickness" placeholder="Введите толщину слоя, мм">
+
+                <br/>
+
+                <label>Введите состав перекрытия</label>
+                <select id="floor_composition" name="floor_composition">
+                    <option>Железобетонная пустотная плита</option>
+                    <option>Железобетонная сплошная плита</option>
+                    <option>Пароизоляция</option>
+                    <option>Стяжка</option>
+                    <option>Утеплитель</option>
+                    <option>Керамическая плитка</option>
+                    <option>Ламинат</option>
+                </select>
+                <input type="number" step="any" name="floor_thickness" placeholder="Введите толщину слоя, мм">
+
+                <br/>
+
+                <label>Введите площадь остекления</label>
+                <input type="number" step="any" name="glazing_area" placeholder="Площадь остекления">
+            </div>
+
+
+            <div>
+                <h3>Характеристика поверхностей помещения</h3>
+                <label>Выберите цвет поверхности </label>
+                <select id="surface_color" name = "surface_color">
+                    <option>Белый потолок, светлые стены, светлый пол</option>
+                    <option>Белый потолок, серые стены,темный пол</option>
+                    <option>Светлый потолок, светлые стены, серый пол</option>
+                    <option>Серый потолок, светлые стены, темный пол</option>
+                    <option>Серый потолок, серые стены, темный пол</option>
+                    <option>Темный потолок, серые стены, темный пол</option>
+                </select>
+            </div>
+
+            <div>
+                <h3>Параметры работы офиса</h3>
+                <label>Введите количество сотрудников:</label>
+                <input name="number_of_employees" type="number" step="any" placeholder="Количество сотрудников"/>
+                <br/>
+                <label>Введите количество посетителей:</label>
+                <input name="number_of_visitors" type="number" step="any" placeholder="Количество посетителей"/>
+                <br/>
+                <label>Введите продолжительность работы офиса:</label>
+                <input name="office_hours" type="number" step="any" placeholder="Продолжительность работы офиса, часов"/>
+
+            </div>
+
+
+            <div>
+                <h3>Укажите особенности освещения</h3>
+                <label for="light_type">Укажите тип освещения:</label>
+                <select id="light_type" name="light_type">
+                    <option value="1">Светодиодное</option>
+                    <option value="2">Люминесцентные</option>
+                </select>
+
+                <label for="light_devices_count">Укажите количество осветительных приборов:</label>
+                <input type="number" name="light_devices_count" id="light_devices_count" placeholder="Количество осветительных приборов">
+                <input type="number" name="light_devices_power" id="light_devices_power" placeholder="Мощность осветительных приборов">
+            </div>
+            <fieldset>
+                <legend>Наличие лайтбоксов</legend>
+                <div>
+                    <label for="lightbox_presence">Выберите наличие лайтбоксов:</label>
+                    <select name="lightbox_presence" id="lightbox_presence">
+                        <option value="1">Есть</option>
+                        <option value="2">Нет</option>
+                    </select>
+                    <input type="number" id="lightbox_quantity" name="lightbox_quantity" placeholder="Введите количество" style="display: none;">
+
+                </div>
+            </fieldset>
+
+            <script>
+                const lightboxPresence = document.getElementById('lightbox_presence');
+                const lightboxQuantity = document.getElementById('lightbox_quantity');
+
+                lightboxPresence.addEventListener('change', () => {
+                    if (lightboxPresence.value === '1') {
+                        lightboxQuantity.style.display = 'block';
+                    } else {
+                        lightboxQuantity.style.display = 'none';
+                        lightboxQuantity.value = '';
+                    }
+                });
+            </script>
+
+
+
+<!--            <div>-->
+<!--                <h3>Инженерные коммуникации</h3>-->
+<!--                <label>Укажите особенности отопления</label>-->
+<!--                <select name="heating_features"></select>-->
+<!--                <br/>-->
+<!--                <label>Укажите особенности водоснабжения</label>-->
+<!--                <select name="water_supply_features"></select>-->
+<!--                <br/>-->
+<!--                <label>Укажите особенности освещения</label>-->
+<!--                <select name="lighting_features"></select>-->
+<!--                <br/>-->
+<!--                <label>Укажите особенности канализации</label>-->
+<!--                <select name="sewerage_features"></select>-->
+<!--            </div>-->
+
+
+            <br>
+            <input type="submit" value="Подтвердить" />
+        </form>
+
+    </body>
+</html>
