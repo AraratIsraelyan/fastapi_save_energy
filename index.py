@@ -1,11 +1,6 @@
-import json
-from typing import List
-
 from fastapi import FastAPI, Form
-from pydantic import BaseModel, Field
 from fastapi.responses import FileResponse
-
-app = FastAPI()
+from starlette.templating import Jinja2Templates
 
 list_city = ['Абаза', 'Абакан', 'Абдулино', 'Абинск', 'Агидель', 'Агрыз', 'Адыгейск', 'Азнакаево', 'Азов', 'Ак-Довурак',
           'Аксай', 'Алагир', 'Алапаевск', 'Алатырь', 'Алдан', 'Алейск', 'Александров', 'Александровск-Сахалинский',
@@ -139,6 +134,7 @@ list_city = ['Абаза', 'Абакан', 'Абдулино', 'Абинск', '
           'Электросталь', 'Электроугли', 'Элиста', 'Энгельс', 'Эртиль', 'Югорск', 'Южа', 'Южно-Сахалинск',
           'Южно-Сухокумск', 'Южноуральск', 'Юрга', 'Юрьев-Польский', 'Юрьевец', 'Юрюзань', 'Юхнов', 'Ядрин', 'Якутск',
           'Ялта', 'Ялуторовск', 'Янаул', 'Яранск', 'Яровое', 'Ярославль', 'Ярцево', 'Ясногорск', 'Ясный', 'Яхрома']
+
 dict_seat_assigment= {
     'Жилые': 150,
     'Производственные': 200,
@@ -162,108 +158,222 @@ dict_surface_color = {
     'Темный потолок, серые стены, темный пол' :0.166666666666667
 }
 
+app = FastAPI()
 
-
-
+templates = Jinja2Templates(directory="templates")
 @app.get("/")
 def root():
     return FileResponse("public/main_form.html")
+@app.get('/vuejs')
+def vue():
+    return FileResponse('public/vue-index.html')
 
 
 @app.post("/postdata")
 def postdata(
-        city=Form(),
-        seat_assigment=Form(),
-        square=Form(),
-        height=Form(),
-        wall_composition=Form(),
-        wall_thickness=Form(),
-        floor_composition=Form(),
-        floor_thickness=Form(),
-        glazing_area=Form(),
-        surface_color=Form(),
-        number_of_employees=Form(),
-        number_of_visitors=Form(),
-        office_hours=Form(),
-        light_type=Form(),
-        light_devices_count=Form(),
-        # lightbox_quantity=Form(),
-        lightbox_presence=Form(),
-        light_devices_power=Form()
+        #   ОСНОВЫНЕ ПАРАМЕТРЫ
+        city: str = Form(...),                                 # Город
+
+        #   - Помещение
+        permises_purpose: str = Form(...),                     # Назначение помещения
+        permises_square: float = Form(..., gt=0),       # Площадь помещения
+        permises_height: float = Form(..., gt=0),       # Высота потолка
+
+        #   - Характеристики ограждающих конструкций
+        wall_composition: str = Form(...),                     # Состав стен
+        wall_thickness: float = Form(..., gt=0),        # Толщина слоя стены
+        floor_composition: str = Form(...),                    # Состав перекрытия
+        floor_thickness: float = Form(..., gt=0),       # Толщина слоя перекрытия
+        glazing_area: float = Form(..., gt=0),          # Площадь остекления
+
+        #   - Характеристика поверхностей помещения
+        surface_color: str = Form(...),                        # Цвет поверхности
+
+        #   - Параметры работы офиса
+        office_number_of_employees: int = Form(..., gt=0),                # Количество сотрудников
+        office_number_of_visitors: int = Form(..., gt=0),                 # Количество посетителей
+        office_works_hours: float = Form(..., gt=0),                      # Продолжительность работы офиса часов в день
+        office_works_days: int = Form(..., gt=0),                         # Продолжительность работы офиса дней
+
+        #   ИНЖЕНЕРНЫЕ КОММУНИКАЦИИ
+
+        #   Характеристика особенностей освещения
+        light_type: str = Form(...),                                       # Тип освещения
+        light_devices_count: int = Form(..., gt=0),                 # Количество источников освещения
+        light_devices_power: float = Form(..., gt=0),               # Общая мощность источников освещения
+
+        light_lightbox_presence = Form(...),                                # Наличие лайтбоксов
+        light_lightbox_count: int = Form(..., gt=0),                 # Количество лайтбоксов
+
+        outdoor_illuminated_sign=Form(...),                                   # Наличие наружной световой вывески
+        outdoor_illuminated_photo_relay=Form(...),                            # Наличие фотореле
+
+        self_service_devices = Form(...),                                      # Наличие устройств самообслуживания
+        self_service_devices_count: int = Form(..., gt=0),              # Количество устройств самообслуживания
+
+        electronic_queue_system = Form(...),                                  # Наличие системы электронной очереди
+        electronic_queue_system_count: int = Form(..., gt=0),          # Количество систем электронной очереди
+
+        exchange_rate_board = Form(...),                                      # Наличие табло курса валют
+        exchange_rate_board_count: int = Form(..., gt=0),              # Количествo табло курса валют
+
+        #   Характеристика особенностей канализации
+        sewerage_sign = Form(...),      # Наличие канализации
+        sewerage_power = Form(...),     # Выделяемая мощность канализации
+        sewerage_type = Form(...),      # Тип канализации
+        client_toilet_sign = Form(...), # Наличие клиентского санузла
+
+        #   Характеристика особенностей водоснабжения
+        water_supply = Form(...),       # Наличие водоснабжения
+        water_power = Form(...),        # Выделяемая мощность
+        water_type = Form(...),         # Тип водоснабжения
+        water_mixer_count: int = Form(...),  # Количество смесителей
+        water_mixer_price: float = Form(..., gt = 0),
+        price_cold_water: float = Form(..., gt = 0),   # Стоимость холодной воды
+        price_hot_water: float = Form(..., gt = 0),    # Стоимость горячей воды
+
+        #   Характеристика особенностей отопления
+        heating_type = Form(...),               # Тип отопления
+        heating_radiator_type = Form(...),      # Тип радиаторов
+        heating_pipe_type = Form(...),          # Тип труб
+        heating_floor_type = Form(...),         # Тип теплого пола
+        heating_air_curtains = Form(...),       # Тепловые завесы
+
+        # Туалет
+        toilets_number: int = Form(...),
+        toilets_type_of_tank = Form(...),
+        toilets_volume_of_a_single_mode_tank: float = Form(...),
+        toilets_volume_of_a_dual_mode_tank: float = Form(...),
+
+
+        number_of_flushes = 2 # Пока что статична
 
 ):
-
+    ### РАССЧЕТ ОСВЕЩЕННОСТИ
     # 1. Расчитывает по введенным данным необходимую освещенность:
-    k_height = 0  # коэфф высоты потолка
-    height = float(height)
-    if 2.7 > height >= 2.5:
-        k_height = 1
-    elif 2.7 <= height < 3:
-        k_height = 1.2
-    elif 3 <= height < 3.5:
-        k_height = 1.5
-    elif 3.5 <= height < 4.5:
-        k_height = 2
+    ceiling_height_koefficient = 0  # коэфф высоты потолка
+    if 2.7 > permises_height >= 2.5:
+        ceiling_height_koefficient = 1
+    elif 2.7 <= permises_height < 3:
+        ceiling_height_koefficient = 1.2
+    elif 3 <= permises_height < 3.5:
+        ceiling_height_koefficient = 1.5
+    elif 3.5 <= permises_height < 4.5:
+        ceiling_height_koefficient = 2
 
-    x = float(dict_seat_assigment[seat_assigment]) * float(square) * k_height
-
+    required_illumination_x = dict_seat_assigment[permises_purpose] * permises_square * ceiling_height_koefficient
+    
     # 2. Проверяем соответствие действительной освещенности требуемой
-    Z=0
-    N = x / float(light_devices_power)
+    n_recommend_count = 0
+    chkeck_light_per_normal_n = required_illumination_x  / light_devices_power
 
     #3. Сравниваем получившееся N с ячейкой С33
-    if N > int(light_devices_count):
-        N_recomend_str = "Количество осветительных приборов недостаточно, производим расчет и подбор"
+    message_recomend_str_n = ''
+    n_recommend_count = 0
+
+    if chkeck_light_per_normal_n > light_devices_count:
+        message_recomend_str_n = "Количество осветительных приборов недостаточно, производим расчет и подбор. Рекомендация:"
         #4. Производим расчет и подбор если строка 13
         F = 3200 #принимаем для офиса 3200 Лм
-        N_recomend_count = float(square) * x * dict_surface_color[surface_color] / F
+        n_recommend_count = float(permises_square) * float(required_illumination_x ) * float(dict_surface_color[surface_color]) / float(F)
+    elif chkeck_light_per_normal_n < light_devices_count:
+        # 5. Производим оптимизацию если строка 14
+        message_recomend_str_n = 'Осветительных приборов достаточно. Проверяем оптимальность типа освещения. Рекомендация:'
+        if light_type == 1:
+            n_recommend_count = light_devices_count  * light_devices_power / (2*36)
+        elif light_type == 2:
+            n_recommend_count = light_devices_count  * light_devices_power / (7*36)
 
+    n_recommend_count = (str(int(n_recommend_count)) + ' светодиодных светильников мощностью 36 ватт размером 600x600x45')
 
-    elif N < int(light_devices_count):
-        N_recomend_str = 'Количество осветительных приборов достаточно, проверяем оптимальность типа освещения'
-        if int(light_type) == 1:
-            Z = float(light_devices_count)  * float(light_devices_power) / (2*36)
-        elif int(light_type) == 2:
-            Z = float(light_devices_count)  * float(light_devices_power) / (7*36)
+    ### РАССЧЕТ ВОДОСНАБЖЕНИЯ
+
+    # РАСЧЕТ ГОДОВОЙ ЭКОНОМИИ ВОДЫ ЗА СЧЕТ ЗАМЕНЫ ОБЫЧНЫХ СЛИВНЫХ БАЧКОВ НА ДВУХФАЗНЫЕ
+    # 1. 1. Vобычн.=0,85*(Nперс*nперс+Nперс*nперс)*V1*T=      расчет объема воды прииспользовании обычных бачков, где n-количество смывов
+    volume_single_mode = 0.85 * (office_number_of_employees * number_of_flushes) * toilets_volume_of_a_single_mode_tank * office_works_days
+    # 2. Vдвухрежимн.=0,85*(Nперс*nперс+Nперс*nперс)*V2*T=      расчет объема воды прииспользовании двухрежимных бачков
+    volume_dual_mode = 0.85 * (office_number_of_employees * number_of_flushes) * toilets_volume_of_a_dual_mode_tank * office_works_days
+    # 3. Э=(Vобычн.-Vдвухрежимн.)*Ц=     расчет экономии денежных средств, где Ц-тариф на холодную воду
+    water_economy = (volume_single_mode - volume_dual_mode) * price_cold_water
+
+    ### Рассчет годового сокращения воды при замене обычных смесителей на автоматические сенсорные
+
+    # 1.ΔVгор=keff*Vгор  -годовое сокращение потерь водысо смесителями
+    k_eff = 0.2
+    #Жилые_здания_с_централизованным_грячим_водоснабжением      27.37   49,275
+    #Офисные_помещения                                          1.86    3,61
+    #Детские_образовательные_учреждения                         6.205  8,395
+
+    volume_losess_hot_delta = k_eff * 27.37
+
+    # 2. ΔVхол=keff*Vхол -годовое сокращение потерь водысо смесителями
+    volume_losess_cold_delta  = k_eff * 49.275
+
+    # 3. Э=ΔVгор*Тгор+ΔVхол*Тхол -суммарная экономия в год с сенсонрыми смесителями
+    summ_volume_economy_per_year = volume_losess_hot_delta * price_hot_water + volume_losess_cold_delta * price_cold_water
+
+    # 4. З=Nсмес*S
+    summ_price_water_mixers = water_mixer_count * water_mixer_price
+
+    # 5. Окупаемость =З/Э (ячейки М19/М16)
+    water_mixers_payback = summ_price_water_mixers / summ_volume_economy_per_year
+
+    aaaa = 50
 
     if city.lower() in [c1ty.lower() for c1ty in list_city]:
-        return {
-            'status': 200,
+        return templates.TemplateResponse("result.html", {'request':{
+            'Статус': 200,
             'city': city,
-            'seat_assigment': seat_assigment,
-            'square': square,
-            'height': height,
+            'permises_purpose': permises_purpose,
+            'permises_square': permises_square,
+            'permises_height': permises_height,
             'wall_composition':wall_composition,
             'wall_thickness':wall_thickness,
             'floor_composition':floor_composition,
             'floor_thickness':floor_thickness,
             'glazing_area':glazing_area,
             'surface_color':surface_color,
-            'number_of_employees':number_of_employees,
-            'number_of_visitors':number_of_visitors,
-            'office_hours':office_hours,
-            #heating_features
-            #water_supply_features
-            #lighting_features
-            #sewerage_features
+            'office_number_of_employees':office_number_of_employees,
+            'office_number_of_visitors':office_number_of_visitors,
+            'office_works_hours':office_works_hours,
             'light_type':light_type,
             'light_devices_count':light_devices_count,
             'light_devices_power':light_devices_power,
-            'lightbox_presence':lightbox_presence,
-            # 'lightbox_quantity':lightbox_quantity,
-            'dict_seat_assigment':dict_seat_assigment[seat_assigment],
-            'X, необходимая освещенность':x,
-            'соответствие действительной освещенности требуемой':N,
-            'соответствие осветительных приборов норме':N_recomend_str,
-            'рекомендация':N_recomend_count,
-            'оптимизацию':Z
-        }
+            'light_lightbox_presence':light_lightbox_presence,
+            'light_lightbox_count':light_lightbox_count,
+            'dict_seat_assigment':dict_seat_assigment[permises_purpose],
+            'required_illumination_x':required_illumination_x ,
+            'chkeck_light_per_normal_n': chkeck_light_per_normal_n,
+            'outdoor_illuminated_sign':outdoor_illuminated_sign,
+            'outdoor_illuminated_photo_relay':outdoor_illuminated_photo_relay,
+            'self_service_devices' : self_service_devices,
+            'toilets_number': toilets_number,
+            'toilets_type_of_tank': toilets_type_of_tank,
+            'toilets_volume_of_a_single_mode_tank': toilets_volume_of_a_single_mode_tank,
+            'heating_type':heating_type,
+            'heating_radiator_type':heating_radiator_type,
+            'heating_pipe_type':heating_pipe_type,
+            'heating_floor_type':heating_floor_type,
+            'heating_air_curtains':heating_air_curtains,
+            'water_supply':water_supply,
+            'sewerage_power':sewerage_power,
+            #'Тип водоснабжения': type_voda,
+            'water_mixer_count':water_mixer_count,
+            'sewerage_sign':sewerage_sign,
+            'sewerage_type':sewerage_type,
+            'client_toilet_sign':client_toilet_sign,
+
+
+            ###  ОТЧЕТ
+            # рассчет освещения
+            'message_recomend_str_n' : message_recomend_str_n,
+            'n_recommend_count' : n_recommend_count,
+            # рассчет водоснабжения
+            'water_economy': water_economy,
+            'summ_volume_economy_per_year': summ_volume_economy_per_year,
+            'water_mixers_payback': water_mixers_payback,
+
+        }})
     else:
-        return {'status': 422, 'exception' : 'Unprocessable Entity'}
-
-
-
-
-
-
+        return templates.TemplateResponse("exception.html", {'request':{'status': 422, 'exception' : 'Unprocessable Entity'}})
 

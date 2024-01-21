@@ -2,25 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="bootstrap-5.3.2-dist/css/bootstrap.css" rel="stylesheet">
     <title>Главная</title>
+
+    <!-- Подключение CSS файла bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- Далее может идти подключение любого другого CSS файла сайта -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
 </head>
     <body>
 
-        <h1>Форма ввода</h1>
-        <form action="postdata" method="post">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: #28a745;">SavEEnergy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Главная</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">О нас</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Услуги
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Пункт меню</a></li>
+            </ul>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
 
-            <div>
+
+    <div class="container">
+
+
+        <form action="postdata" method="post">
+            <h1>Выберите параметры помещения:</h1><hr>
+
+            <div >
                 <h3>Город</h3>
                 <label for="city">Укажите город</label>
-                <input id="city" name="city" placeholder="Введите город"/>
+                <input id="city" name="city" class="form-control" placeholder="Введите город"/>
             </div>
+            <hr>
 
 
             <div>
                 <h3>Назначение помещения</h3>
-                <label for="seat_assigment">Укажите назначение помещения</label>
-                <select id="seat_assigment" name = "seat_assigment">
+                <label for="permises_purpose">Укажите назначение помещения</label>
+                <select id="permises_purpose" name = "permises_purpose" class="form-control">
                     <option>Жилые</option>
                     <option>Производственные</option>
                     <option>Торговые</option>
@@ -34,21 +72,23 @@
                     <option>Банк</option>
                 </select>
             </div>
+            <hr>
 
             <div>
                 <h3>Размеры помещения</h3>
                 <label>Укажите площадь помещения:</label>
-                <input name="square" type="number" step="any" placeholder="Площадь помещения"/>
+                <input name="permises_square" type="number" step="any" class="form-control" placeholder="Площадь помещения"/>
                 <br/>
                 <label>Укажите высоту потолка:</label>
-                <input name="height" type="number" step="any" placeholder="Высота потолка"/>
+                <input name="permises_height" type="number" step="any" class="form-control" placeholder="Высота потолка"/>
             </div>
+            <hr>
 
 
             <div>
                 <h3>Характеристики ограждающих конструкций</h3>
                 <label>Введите состав стен</label>
-                <select id="wall_composition" name = "wall_composition">
+                <select id="wall_composition" name = "wall_composition" class="form-control">
                     <option>Железобетон</option>
                     <option>Газобетонный блок</option>
                     <option>Кирпич силикатный</option>
@@ -58,12 +98,11 @@
                     <option>Воздушная прослойка</option>
                     <option>Штукатурка</option>
                 </select>
-                <input type="number" step="any" name="wall_thickness" placeholder="Введите толщину слоя, мм">
-
+                <input type="number" step="any" name="wall_thickness" class="form-control" placeholder="Введите толщину слоя, мм">
                 <br/>
 
                 <label>Введите состав перекрытия</label>
-                <select id="floor_composition" name="floor_composition">
+                <select id="floor_composition" name="floor_composition" class="form-control">
                     <option>Железобетонная пустотная плита</option>
                     <option>Железобетонная сплошная плита</option>
                     <option>Пароизоляция</option>
@@ -72,19 +111,20 @@
                     <option>Керамическая плитка</option>
                     <option>Ламинат</option>
                 </select>
-                <input type="number" step="any" name="floor_thickness" placeholder="Введите толщину слоя, мм">
+                <input type="number" step="any" name="floor_thickness" class="form-control" placeholder="Введите толщину слоя, мм">
 
                 <br/>
 
                 <label>Введите площадь остекления</label>
-                <input type="number" step="any" name="glazing_area" placeholder="Площадь остекления">
+                <input type="number" step="any" name="glazing_area" class="form-control" placeholder="Площадь остекления">
             </div>
+            <hr>
 
 
             <div>
                 <h3>Характеристика поверхностей помещения</h3>
                 <label>Выберите цвет поверхности </label>
-                <select id="surface_color" name = "surface_color">
+                <select id="surface_color" name = "surface_color" class="form-control">
                     <option>Белый потолок, светлые стены, светлый пол</option>
                     <option>Белый потолок, серые стены,темный пол</option>
                     <option>Светлый потолок, светлые стены, серый пол</option>
@@ -93,81 +133,271 @@
                     <option>Темный потолок, серые стены, темный пол</option>
                 </select>
             </div>
+            <hr>
 
             <div>
                 <h3>Параметры работы офиса</h3>
                 <label>Введите количество сотрудников:</label>
-                <input name="number_of_employees" type="number" step="any" placeholder="Количество сотрудников"/>
+                <input name="office_number_of_employees" type="number" step="any" class="form-control" placeholder="Количество сотрудников"/>
                 <br/>
                 <label>Введите количество посетителей:</label>
-                <input name="number_of_visitors" type="number" step="any" placeholder="Количество посетителей"/>
+                <input name="office_number_of_visitors" type="number" step="any" class="form-control" placeholder="Количество посетителей"/>
                 <br/>
-                <label>Введите продолжительность работы офиса:</label>
-                <input name="office_hours" type="number" step="any" placeholder="Продолжительность работы офиса, часов"/>
+                <label>Введите продолжительность работы офиса, часов в день:</label>
+                <input name="office_works_hours" type="number" step="any" class="form-control" placeholder="Продолжительность работы офиса, часов"/>
 
+                <label>Введите продолжительность работы офиса, дней:</label>
+                <input name="office_works_days" type="number" step="any" class="form-control" placeholder="Продолжительность работы офиса, дней"/>
             </div>
+            <hr>
 
 
             <div>
                 <h3>Укажите особенности освещения</h3>
                 <label for="light_type">Укажите тип освещения:</label>
-                <select id="light_type" name="light_type">
+                <select id="light_type" name="light_type" class="form-control">
                     <option value="1">Светодиодное</option>
                     <option value="2">Люминесцентные</option>
+                    <option value="3">Накаливания</option>
+
                 </select>
 
                 <label for="light_devices_count">Укажите количество осветительных приборов:</label>
-                <input type="number" name="light_devices_count" id="light_devices_count" placeholder="Количество осветительных приборов">
-                <input type="number" name="light_devices_power" id="light_devices_power" placeholder="Мощность осветительных приборов">
+                <input type="number" name="light_devices_count" id="light_devices_count" class="form-control" placeholder="Количество осветительных приборов">
+                <input type="number" name="light_devices_power" id="light_devices_power" class="form-control" placeholder="Мощность осветительных приборов">
             </div>
+
             <fieldset>
-                <legend>Наличие лайтбоксов</legend>
                 <div>
-                    <label for="lightbox_presence">Выберите наличие лайтбоксов:</label>
-                    <select name="lightbox_presence" id="lightbox_presence">
-                        <option value="1">Есть</option>
-                        <option value="2">Нет</option>
+                    <label for="light_lightbox_presence">Выберите наличие лайтбоксов:</label>
+                    <select name="light_lightbox_presence" id="light_lightbox_presence" class="form-select">
+                        <option value="1">Нет</option>
+                        <option value="2">Есть</option>
                     </select>
-                    <input type="number" id="lightbox_quantity" name="lightbox_quantity" placeholder="Введите количество" style="display: none;">
+                    <input type="number" id="light_lightbox_count" name="light_lightbox_count" class="form-control" placeholder="Введите количество" style="display: none;">
 
                 </div>
             </fieldset>
-
             <script>
-                const lightboxPresence = document.getElementById('lightbox_presence');
-                const lightboxQuantity = document.getElementById('lightbox_quantity');
+                const lightboxPresence = document.getElementById('light_lightbox_presence');
+                const lightboxQuantity = document.getElementById('light_lightbox_count');
 
                 lightboxPresence.addEventListener('change', () => {
                     if (lightboxPresence.value === '1') {
-                        lightboxQuantity.style.display = 'block';
-                    } else {
                         lightboxQuantity.style.display = 'none';
+                    } else {
+                        lightboxQuantity.style.display = 'block';
                         lightboxQuantity.value = '';
                     }
                 });
             </script>
 
+            <fieldset>
+                <div>
+                    <label for="outdoor_illuminated_sign">Выберите наличие наружной световой вывески:</label>
+                    <select name="outdoor_illuminated_sign" id="outdoor_illuminated_sign" class="form-select">
+                        <option value="2">Нет</option>
+                        <option value="1">Есть</option>
+                    </select>
+
+                    <label for="outdoor_illuminated_photo_relay">Наличие фотореле:</label>
+                    <select name="outdoor_illuminated_photo_relay" id="outdoor_illuminated_photo_relay" class="form-select">
+                        <option value="2">Нет</option>
+                        <option value="1">Есть</option>
+                    </select>
+                </div>
+            </fieldset>
+            <script>
+                const outdoor_illuminated_sign = document.getElementById('outdoor_illuminated_sign');
+                const outdoor_illuminated_photo_relay = document.getElementById('outdoor_illuminated_photo_relay');
+
+                outdoor_illuminated_sign.addEventListener('change', () => {
+                    if (outdoor_illuminated_sign.value === '1') {
+                        outdoor_illuminated_photo_relay.style.display = 'block';
+                    } else {
+                        outdoor_illuminated_sign.style.display = 'none';
+                        outdoor_illuminated_photo_relay.value = '';
+                    }
+                });
+            </script>
+
+            <fieldset>
+                <div>
+                    <label for="self_service_devices">Выберите наличие устройств самообслуживания:</label>
+                    <select name="self_service_devices" id="self_service_devices" class="form-select">
+                        <option value="2">Нет</option>
+                        <option value="1">Есть</option>
+                    </select>
+                    <input type="number" id="self_service_devices_count" name="self_service_devices_count" placeholder="Введите количество" class="form-control" style="display: block;">
+
+                </div>
+            </fieldset>
+
+            <div>
+                <label for="electronic_queue_system">Наличие системы электронной очереди:</label>
+                <select name="electronic_queue_system" id="electronic_queue_system" class="form-select">
+                    <option value="2">Нет</option>
+                    <option value="1">Есть</option>
+                </select>
+                <label>Количество систем электронной очереди:</label>
+                <input name="electronic_queue_system_count" type="number" step="any" class="form-control" placeholder="Количество систем электронной очереди"/>
+            </div>
+
+            <div>
+                <label for="exchange_rate_board">Наличие табло курса валют:</label>
+                <select name="exchange_rate_board" id="exchange_rate_board" class="form-select">
+                    <option value="2">Нет</option>
+                    <option value="1">Есть</option>
+                </select>
+                <label>Количествo табло курса валют:</label>
+                <input name="exchange_rate_board_count" type="number" step="any" class="form-control" placeholder="Количествo табло курса валют"/>
+            </div>
 
 
-<!--            <div>-->
-<!--                <h3>Инженерные коммуникации</h3>-->
-<!--                <label>Укажите особенности отопления</label>-->
-<!--                <select name="heating_features"></select>-->
-<!--                <br/>-->
-<!--                <label>Укажите особенности водоснабжения</label>-->
-<!--                <select name="water_supply_features"></select>-->
-<!--                <br/>-->
-<!--                <label>Укажите особенности освещения</label>-->
-<!--                <select name="lighting_features"></select>-->
-<!--                <br/>-->
-<!--                <label>Укажите особенности канализации</label>-->
-<!--                <select name="sewerage_features"></select>-->
-<!--            </div>-->
+
+            <h2>Укажите особенности водоснабжения</h2>
+        <div class="form-group">
+            <label for="water_supply">Наличие водоснабжения</label>
+            <select class="form-control" id="water_supply" name="water_supply">
+                <option value="1">Есть</option>
+                <option value="2">Нет</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="water_power">Выделяемая мощность (вводите только цифры)</label>
+            <input type="text" class="form-control" id="water_power" name="water_power" pattern="[0-9]+" required>
+        </div>
+
+        <div class="form-group">
+            <label for="water_type">Тип водоснабжения</label>
+            <select class="form-control" id="water_type" name="water_type">
+                <option value="1">Центральное</option>
+                <option value="2">Скважина</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="water_mixer_count">Количество смесителей (вводите только цифры)</label>
+            <input type="text" class="form-control" id="water_mixer_count" name="water_mixer_count" pattern="[0-9]+" required>
+
+             <label for="water_mixer_price">Стоимость смесителя:</label>
+            <input type="text" class="form-control" id="water_mixer_price" name="water_mixer_price" required>
+        </div>
+
+            <div class="form-group">
+            <label for="price_cold_water">Стоимость м3 холодной воды</label>
+            <input type="text" class="form-control" id="price_cold_water" name="price_cold_water" required>
+
+             <label for="price_hot_water">Стоимость м3 горячей воды:</label>
+            <input type="text" class="form-control" id="price_hot_water" name="price_hot_water" required>
+        </div>
+            <hr>
 
 
-            <br>
-            <input type="submit" value="Подтвердить" />
+
+            <h2>Укажите особенности отопления</h2>
+        <div class="form-group">
+            <label for="heating_type">Тип отопления</label>
+            <select class="form-control" id="heating_type" name="heating_type">
+                <option value="1">Центральное</option>
+                <option value="2">Автономное</option>
+                <option value="3">Теплый пол</option>
+                <option value="4">Кондиционеры</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="heating_radiator_type">Тип радиаторов</label>
+            <select class="form-control" id="heating_radiator_type" name="heating_radiator_type">
+                <option value="1">Биметаллические</option>
+                <option value="2">Чугунные</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="heating_pipe_type">Тип труб</label>
+            <select class="form-control" id="heating_pipe_type" name="heating_pipe_type">
+                <option value="1">Металлические</option>
+                <option value="2">Пластиковые</option>
+                <option value="3">Комбинированные</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="heating_floor_type">Тип теплого пола</label>
+            <select class="form-control" id="heating_floor_type" name="heating_floor_type">
+                <option value="1">Водяной</option>
+                <option value="2">Электрический</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="heating_air_curtains">Тепловые завесы</label>
+            <select class="form-control" id="heating_air_curtains" name="heating_air_curtains">
+                <option value="1">Есть</option>
+                <option value="2">Нет</option>
+            </select>
+        </div>
+            <hr>
+
+
+
+            <h2>Укажите особенности канализации</h2>
+        <div class="form-group">
+            <label for="sewerage_sign">Наличие канализации</label>
+            <select class="form-control" id="sewerage_sign" name="sewerage_sign">
+                <option value="1">Есть</option>
+                <option value="2">Нет</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="sewerage_power">Выделяемая мощность (вводите только цифры)</label>
+            <input type="text" class="form-control" id="sewerage_power" name="sewerage_power"  required>
+        </div>
+
+        <div class="form-group">
+            <label for="sewerage_type">Тип канализации</label>
+            <select class="form-control" id="sewerage_type" name="sewerage_type">
+                <option value="1">Септик</option>
+                <option value="2">Центральная</option>
+                <option value="3">Уличный</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="client_toilet_sign">Наличие клиентского санузла</label>
+            <select class="form-control" id="client_toilet_sign" name="client_toilet_sign">
+                <option value="1">Есть</option>
+                <option value="2">Нет</option>
+            </select>
+        </div>
+
+              <div>
+                <label>Количество унитазов</label>
+                <input type="number" step="any" name="toilets_number" class="form-control" placeholder="Количество унитазов">
+
+                <label>Выберите вид бачка</label>
+                <select id="toilets_type_of_tank" name = "toilets_type_of_tank" class="form-control">
+                    <option>Обычный</option>
+                    <option>Двухрежимный блок</option>
+                </select>
+
+                <input type="number" step="any" name="toilets_volume_of_a_single_mode_tank" class="form-control" placeholder="Объем обычного бачка, м3">
+                <input type="number" step="any" name="toilets_volume_of_a_dual_mode_tank" class="form-control" placeholder="Объем двухрежимного бачка, м3">
+
+            </div>
+            <hr>
+
+
+
+              <br>
+            <div class="mx-auto" style="margin: 0 auto; text-align: center;">
+            <input type="submit" class="btn btn-success" value="Выполнить рассчет" />
+            </div>
+            <br><br/>
         </form>
-
+    </div>
     </body>
 </html>
