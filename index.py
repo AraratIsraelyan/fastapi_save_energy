@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Form
 from fastapi.responses import FileResponse
+from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 list_city = ['Абаза', 'Абакан', 'Абдулино', 'Абинск', 'Агидель', 'Агрыз', 'Адыгейск', 'Азнакаево', 'Азов', 'Ак-Довурак',
@@ -161,12 +162,16 @@ dict_surface_color = {
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
+
+# Подключаем статические файлы
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 @app.get("/")
 def root():
     return FileResponse("public/main_form.html")
-@app.get('/vuejs')
+@app.get('/new')
 def vue():
-    return FileResponse('public/vue-index.html')
+    return FileResponse('public/new_form.html')
 
 
 @app.post("/postdata")
@@ -203,19 +208,19 @@ def postdata(
         light_devices_power: float = Form(..., gt=0),               # Общая мощность источников освещения
 
         light_lightbox_presence = Form(...),                                # Наличие лайтбоксов
-        light_lightbox_count: int = Form(..., gt=0),                 # Количество лайтбоксов
+        light_lightbox_count: int = Form(...),                 # Количество лайтбоксов
 
         outdoor_illuminated_sign=Form(...),                                   # Наличие наружной световой вывески
         outdoor_illuminated_photo_relay=Form(...),                            # Наличие фотореле
 
         self_service_devices = Form(...),                                      # Наличие устройств самообслуживания
-        self_service_devices_count: int = Form(..., gt=0),              # Количество устройств самообслуживания
+        self_service_devices_count: int = Form(...),              # Количество устройств самообслуживания
 
         electronic_queue_system = Form(...),                                  # Наличие системы электронной очереди
-        electronic_queue_system_count: int = Form(..., gt=0),          # Количество систем электронной очереди
+        electronic_queue_system_count: int = Form(...),          # Количество систем электронной очереди
 
         exchange_rate_board = Form(...),                                      # Наличие табло курса валют
-        exchange_rate_board_count: int = Form(..., gt=0),              # Количествo табло курса валют
+        exchange_rate_board_count: int = Form(...),              # Количествo табло курса валют
 
         #   Характеристика особенностей канализации
         sewerage_sign = Form(...),      # Наличие канализации
