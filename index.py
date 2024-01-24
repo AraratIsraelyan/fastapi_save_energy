@@ -208,16 +208,16 @@ def postdata(
         light_devices_power: float = Form(..., gt=0),               # Общая мощность источников освещения
 
         light_lightbox_presence = Form(...),                                # Наличие лайтбоксов
-        light_lightbox_count: int = Form(...),                 # Количество лайтбоксов
+        light_lightbox_count: int = Form(0, gt=0),                 # Количество лайтбоксов
 
         outdoor_illuminated_sign=Form(...),                                   # Наличие наружной световой вывески
         outdoor_illuminated_photo_relay=Form(...),                            # Наличие фотореле
 
         self_service_devices = Form(...),                                      # Наличие устройств самообслуживания
-        self_service_devices_count: int = Form(...),              # Количество устройств самообслуживания
+        self_service_devices_count: int = Form(0, gt=0),              # Количество устройств самообслуживания
 
         electronic_queue_system = Form(...),                                  # Наличие системы электронной очереди
-        electronic_queue_system_count: int = Form(...),          # Количество систем электронной очереди
+        electronic_queue_system_count: int = Form(0,gt=0),          # Количество систем электронной очереди
 
         exchange_rate_board = Form(...),                                      # Наличие табло курса валют
         exchange_rate_board_count: int = Form(...),              # Количествo табло курса валют
@@ -245,7 +245,7 @@ def postdata(
         heating_air_curtains = Form(...),       # Тепловые завесы
 
         # Туалет
-        toilets_number: int = Form(...),
+        toilets_number: int = Form(0,gt=0),
         toilets_type_of_tank = Form(...),
         toilets_volume_of_a_single_mode_tank: float = Form(...),
         toilets_volume_of_a_dual_mode_tank: float = Form(...),

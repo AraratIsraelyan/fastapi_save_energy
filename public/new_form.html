@@ -18,7 +18,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#" style="color: #28a745;">SavEEnergy</a>
+        <a class="navbar-brand" href="http://127.0.0.1:8000/new" style="color: #28a745;">SavEEnergy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                    <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/new">Главная</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">О нас</a>
@@ -50,28 +50,28 @@
 
     <form action="postdata" method="post">
         <div>
-            <h3>Город</h3>
-            <input id="city" name="city" class="form-control" type="text" placeholder="Введите город" required>
-            <hr>
+            <br/>
+<!--            <h3>Город</h3>-->
+<!--            <input id="city" name="city" class="form-control" type="text" placeholder="Введите город" required>-->
         </div>
 
         <div class="row">
             <div class="col-sm">
-                <h5>Назначение помещения</h5>
+                <h5>Характеристики помещения</h5>
             </div>
             <div class="col-sm">
                 <h5>Параметры работы офиса</h5>
             </div>
             <div class="col-sm">
-                <h5>Характеристики ограждающих конструкций</h5>
-            </div>
-            <div class="col-sm">
-                <h5>Характеристика поверхностей помещения</h5>
+                <h5>Особенности ограждающих конструкций</h5>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm">
+                <label for="city">Введите город расположения помещения:</label>
+                <input id="city" name="city" class="form-control" type="text" placeholder="Введите город" required>
+
                 <!--                    <h4>Назначение помещения</h4>-->
                 <label for="permises_purpose">Выберите назначение помещения:</label>
                 <select id="permises_purpose" name="permises_purpose" class="form-control">
@@ -93,6 +93,17 @@
                 <label>Высота потолка:</label>
                 <input name="permises_height" type="number" step="any" class="form-control"
                        placeholder="Высота потолка" required/>
+
+                <label>Выберите цвет поверхности:</label>
+                <select id="surface_color" name="surface_color" class="form-control" required>
+                    <option>Белый потолок, светлые стены, светлый пол</option>
+                    <option>Белый потолок, серые стены,темный пол</option>
+                    <option>Светлый потолок, светлые стены, серый пол</option>
+                    <option>Серый потолок, светлые стены, темный пол</option>
+                    <option>Серый потолок, серые стены, темный пол</option>
+                    <option>Темный потолок, серые стены, темный пол</option>
+                </select>
+
             </div>
             <div class="col-sm">
                 <!--                    <h4>Параметры работы офиса</h4>-->
@@ -142,34 +153,26 @@
                 <input type="number" step="any" name="glazing_area" class="form-control"
                        placeholder="Площадь остекления" required>
             </div>
-            <div class="col-sm">
+<!--            <div class="col-sm">-->
                 <!--                    <h4>Характеристика поверхностей помещения</h4>-->
-                <label>Выберите цвет поверхности:</label>
-                <select id="surface_color" name="surface_color" class="form-control" required>
-                    <option>Белый потолок, светлые стены, светлый пол</option>
-                    <option>Белый потолок, серые стены,темный пол</option>
-                    <option>Светлый потолок, светлые стены, серый пол</option>
-                    <option>Серый потолок, светлые стены, темный пол</option>
-                    <option>Серый потолок, серые стены, темный пол</option>
-                    <option>Темный потолок, серые стены, темный пол</option>
-                </select>
-            </div>
+
+<!--            </div>-->
         </div>
 
         <hr/>
 
         <div class="row">
             <div class="col">
-                <h5>Характеристики освещения</h5>
+                <h5>Особенности освещения</h5>
             </div>
             <div class="col">
-                <h5>Характеристики систем водоснабжения</h5>
+                <h5>Особенности водоснабжения</h5>
             </div>
             <div class="col">
-                <h5>Характеристики ограждающих конструкций</h5>
+                <h5>Особенности канализации</h5>
             </div>
             <div class="col">
-                <h5>Характеристика поверхностей помещения</h5>
+                <h5>Особенности отопления</h5>
             </div>
         </div>
 
@@ -205,6 +208,7 @@
                     lightboxPresence.addEventListener('change', () => {
                         lightboxQuantity.style.display = (lightboxPresence.value === '1') ? 'none' : 'block';
                         lightboxQuantity.value = (lightboxPresence.value === '1') ? '1' : lightboxQuantity.value;
+                        console.log('lightboxQuantity.value:', lightboxQuantity.value);
                     });
                 </script>
 
@@ -340,50 +344,7 @@
                            placeholder="Введите стоимость литра горячей воды" required>
                 </div>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="heating_type">Тип отопления:</label>
-                    <select class="form-control" id="heating_type" name="heating_type">
-                        <option value="1">Центральное</option>
-                        <option value="2">Автономное</option>
-                        <option value="3">Теплый пол</option>
-                        <option value="4">Кондиционеры</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label for="heating_radiator_type">Тип радиаторов:</label>
-                    <select class="form-control" id="heating_radiator_type" name="heating_radiator_type">
-                        <option value="1">Биметаллические</option>
-                        <option value="2">Чугунные</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="heating_pipe_type">Тип труб:</label>
-                    <select class="form-control" id="heating_pipe_type" name="heating_pipe_type">
-                        <option value="1">Металлические</option>
-                        <option value="2">Пластиковые</option>
-                        <option value="3">Комбинированные</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="heating_floor_type">Тип теплого пола:</label>
-                    <select class="form-control" id="heating_floor_type" name="heating_floor_type">
-                        <option value="1">Водяной</option>
-                        <option value="2">Электрический</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="heating_air_curtains">Тепловые завесы:</label>
-                    <select class="form-control" id="heating_air_curtains" name="heating_air_curtains">
-                        <option value="1">Есть</option>
-                        <option value="2">Нет</option>
-                    </select>
-                </div>
-            </div>
             <div class="col">
                 <div class="form-group">
                     <label for="sewerage_sign">Наличие канализации:</label>
@@ -433,6 +394,52 @@
                            placeholder="Объем двухрежимного бачка, м3">
                 </div>
             </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="heating_type">Тип отопления:</label>
+                    <select class="form-control" id="heating_type" name="heating_type">
+                        <option value="1">Центральное</option>
+                        <option value="2">Автономное</option>
+                        <option value="3">Теплый пол</option>
+                        <option value="4">Кондиционеры</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heating_radiator_type">Тип радиаторов:</label>
+                    <select class="form-control" id="heating_radiator_type" name="heating_radiator_type">
+                        <option value="1">Биметаллические</option>
+                        <option value="2">Чугунные</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heating_pipe_type">Тип труб:</label>
+                    <select class="form-control" id="heating_pipe_type" name="heating_pipe_type">
+                        <option value="1">Металлические</option>
+                        <option value="2">Пластиковые</option>
+                        <option value="3">Комбинированные</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heating_floor_type">Тип теплого пола:</label>
+                    <select class="form-control" id="heating_floor_type" name="heating_floor_type">
+                        <option value="1">Водяной</option>
+                        <option value="2">Электрический</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heating_air_curtains">Тепловые завесы:</label>
+                    <select class="form-control" id="heating_air_curtains" name="heating_air_curtains">
+                        <option value="1">Есть</option>
+                        <option value="2">Нет</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
 
         <br>
@@ -441,24 +448,6 @@
         </div>
         <br><br/>
     </form>
-</div>
-
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="col-sm">1.1</div>
-            <div class="col-sm">1.2</div>
-        </div>
-        <div class="col">
-            <div class="col-sm">2.1</div>
-            <div class="col-sm">2.2</div>
-        </div>
-        <div class="col">
-            <div class="col-sm">Характеристики освещения</div>
-        </div>
-
-    </div>
 </div>
 
 </body>
